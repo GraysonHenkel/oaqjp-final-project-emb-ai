@@ -26,4 +26,8 @@ def emotion_detector(text_to_analyse):
         'sadness': emotions['sadness'],
         'dominant_emotion': dominant_emotion
     }
-    return formatted_output
+    # Validate correct response
+    if response.status_code == 200:
+        return formatted_output
+    else:
+        return None # The server code will accept this as an error.

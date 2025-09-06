@@ -10,6 +10,9 @@ def emot_detector():
     text_to_analyze = request.args.get('textToAnalyze')
     # Pass the text to the emotion_detector function and store the response
     response = emotion_detector(text_to_analyze)
+    # Check if the label is None, indicating an error or invalid input
+    if response is None:
+        return "Invalid text! Please try again!"
     # Extract the emotions, values, and dominant emotion from the response
     anger = response['anger']
     disgust = response['disgust']
@@ -17,13 +20,12 @@ def emot_detector():
     joy = response['joy']
     sadness = response['sadness']
     label = response['dominant_emotion']
-
-    # Check if the label is None, indicating an error or invalid input
-    if label is None:
-        return "Invalid input! Try again."
-    else:
-        # Format the output to list off the values of the emotions and the dominant emotion
-        return f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. The dominant emotion is {label}."
+    # Format the output to list off the values of the emotions and the dominant emotion
+    return (
+        f"For the given statement, the system response is 'anger': {anger}, "
+        f"'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and "
+        f"'sadness': {sadness}. The dominant emotion is {label}."
+    )
 
 @app.route("/")
 def render_index_page():
